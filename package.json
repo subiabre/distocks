@@ -1,0 +1,23 @@
+{
+  "name": "distock",
+  "version": "1.0.0",
+  "description": "A bot to check stock prices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subiabre/distock.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/subiabre/distock/issues"
+  },
+  "homepage": "https://github.com/subiabre/distock#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
