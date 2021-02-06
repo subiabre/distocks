@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/subiabre/distocks#readme",
   "dependencies": {
+    "alphavantage": "^2.2.0",
     "await-to-js": "^2.1.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "log4js": "^6.3.0",
-    "stocks.js": "0.0.19"
+    "log4js": "^6.3.0"
   }
 }

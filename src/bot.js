@@ -2,23 +2,29 @@
 
 require('dotenv').config()
 
-const to = require('await-to-js')
+const to = require('await-to-js').default;
 const logger = require('./logger')
-const Stocks = require('stocks.js')
+const alpha = require('alphavantage')({ key: process.env.ALPHA_VANTAGE_API_KEY })
 
 class Bot
 {
     constructor()
     {
-        this.stocks = new Stocks(process.env.ALPHA_VANTAGE_API_KEY)
+        this.alpha = alpha
         this.log = logger
 
         this.pingTag = '$'
         this.commands = [
             { trigger: 'price', function: (argument) => this.commandPrice(argument) },
+            { trigger: 'crypto', function: (argument) => this.commandCrypto(argument) },
             { trigger: 'help', function: (argument) => this.commandHelp(argument) },
             { trigger: '[^ ]*', function: (argument) => this.commandUnknown(argument), hidden: true },
         ]
+    }
+
+    alphaGetLatestOf(key, set)
+    {
+        return set[key][Object.keys(set[key])[0]]
     }
 
     /**
@@ -28,16 +34,6 @@ class Bot
     setClient(client)
     {
         this.client = client
-    }
-
-    /**
-     * Format into a string the json result of an stocks api call
-     * @param {String} stock 
-     * @param {JSON} data
-     */
-    formatStockPrice(stock, data)
-    {
-        return `${stock} last minute price:\nopening: ${data.open}\nclosing: ${data.close}`
     }
 
     /**
@@ -101,22 +97,39 @@ class Bot
     async commandPrice(argument)
     {
         let stock = argument.toUpperCase()
-        let err, response
+        let err, result
 
-        [err, response] = await to(this.stocks.timeSeries({
-            symbol: stock,
-            interval: '1min',
-            amount: 1
-        }))
+        [err, result] = await to(this.alpha.data.intraday(stock, 'compact', 'json', '1min'))
 
-        if (err) {
-            return `Could not retrieve price value of ${stock}`
-        }
-        
+        if (err) return `I'm sorry, there's no data for '${stock}'? LOL`
 
-        return this.formatStockPrice(argument, result[0])
+        result = this.alphaGetLatestOf('Time Series (1min)', result)
+
+        return `${stock} price:\nopening: ${result['1. open']}\nclosing: ${result['4. close']}`
     }
 
+    async commandCrypto(argument)
+    {
+        let [symbol, market] = argument.toUpperCase().split('/')
+        let err, result, data
+
+        [err, result] = await to(this.alpha.crypto.daily(symbol, market))
+
+        if (err) return `Is '${argument}' a crypto/fiat combo. I can only convert that way :(`
+
+        result = this.alphaGetLatestOf('Time Series (Digital Currency Daily)', result)
+        data = `1 ${symbol}:\n${result[`1a. open (${market})`]} ${market}`
+
+        if (result[`1a. open (${market})`] > 1000) {
+            return data + `\nWow much gains`
+        }
+
+        if (symbol == 'DOGE') {
+            return data + `\nDOGE TO THE MOON! 🚀`
+        }
+
+        return data
+    }
 }
 
 module.exports = new Bot
