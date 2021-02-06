@@ -18,6 +18,8 @@
   "homepage": "https://github.com/subiabre/distock#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "log4js": "^6.3.0",
+    "stocks.js": "0.0.19"
   }
 }
