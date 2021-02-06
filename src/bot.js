@@ -2,6 +2,7 @@
 
 require('dotenv').config()
 
+const to = require('await-to-js')
 const logger = require('./logger')
 const Stocks = require('stocks.js')
 
@@ -100,11 +101,18 @@ class Bot
     async commandPrice(argument)
     {
         let stock = argument.toUpperCase()
-        let result = await this.stocks.timeSeries({
+        let err, response
+
+        [err, response] = await to(this.stocks.timeSeries({
             symbol: stock,
             interval: '1min',
             amount: 1
-        })
+        }))
+
+        if (err) {
+            return `Could not retrieve price value of ${stock}`
+        }
+        
 
         return this.formatStockPrice(argument, result[0])
     }
