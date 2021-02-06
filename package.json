@@ -1,5 +1,5 @@
 {
-  "name": "distocks",
+  "name": "stonks",
   "version": "1.0.0",
   "description": "A bot to check stock prices",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/subiabre/distock.git"
+    "url": "git+https://github.com/subiabre/stonks.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/subiabre/distocks/issues"
+    "url": "https://github.com/subiabre/stonks/issues"
   },
-  "homepage": "https://github.com/subiabre/distocks#readme",
+  "homepage": "https://github.com/subiabre/stonks#readme",
   "dependencies": {
     "alphavantage": "^2.2.0",
     "await-to-js": "^2.1.1",
