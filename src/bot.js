@@ -18,7 +18,7 @@ class Bot
             { trigger: 'price', function: (argument) => this.commandPrice(argument) },
             { trigger: 'crypto', function: (argument) => this.commandCrypto(argument) },
             { trigger: 'help', function: (argument) => this.commandHelp(argument) },
-            { trigger: '^[a-z]+$', function: (argument) => this.commandUnknown(argument), hidden: true },
+            { trigger: '^[a-z]+', function: (argument) => this.commandUnknown(argument), hidden: true },
         ]
     }
 
