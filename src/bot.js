@@ -105,7 +105,7 @@ class Bot
 
         result = this.alphaGetLatestOf('Time Series (1min)', result)
 
-        return `${stock} price:\nopening: ${result['1. open']}\nclosing: ${result['4. close']}`
+        return `$${stock} price:\n \`${result['4. close']}\``
     }
 
     async commandCrypto(argument)
@@ -118,14 +118,14 @@ class Bot
         if (err) return `Is '${argument}' a crypto/fiat combo. I can only convert that way :(`
 
         result = this.alphaGetLatestOf('Time Series (Digital Currency Daily)', result)
-        data = `1 ${symbol}:\n${result[`1a. open (${market})`]} ${market}`
+        data = `1 ${symbol}:\n \`${result[`1a. open (${market})`]}\` ${market}`
 
         if (result[`1a. open (${market})`] > 1000) {
-            return data + `\nWow much gains`
+            return data + `\n\nWow much gains`
         }
 
         if (symbol == 'DOGE') {
-            return data + `\nDOGE TO THE MOON! 🚀`
+            return data + `\n\nDOGE TO THE MOON! 🚀`
         }
 
         return data
