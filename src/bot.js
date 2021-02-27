@@ -54,8 +54,6 @@ class Bot
     {
         if (msg.content.startsWith(this.pingTag)) {
             let content = this.removePingTag(msg);
-
-            msg.channel.startTyping()
             
             for (let index = 0; index < this.commands.length; index++) {
                 const command = this.commands[index];
@@ -63,11 +61,12 @@ class Bot
                 let trigger = new RegExp(command.trigger)
 
                 if (trigger.test(content.toLowerCase())) {
+                    msg.channel.startTyping()
+
                     let argument = content.replace(trigger, '').replace(' ', '')
+                    let answer = await command.function(argument)
 
                     this.log.info(`Command '$${command.trigger}' with argument '${argument}'`)
-
-                    let answer = await command.function(argument)
 
                     msg.channel.stopTyping()
                     msg.channel.send(answer)
