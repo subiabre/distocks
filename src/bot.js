@@ -105,7 +105,7 @@ class Bot
 
         result = this.alphaGetLatestOf('Time Series (1min)', result)
 
-        return `$${stock} price:\n \`${result['4. close']}\``
+        return `${stock} price:\n \`${result['4. close']}\``
     }
 
     async commandCrypto(argument)
